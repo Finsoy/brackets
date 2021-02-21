@@ -4,20 +4,21 @@ module.exports = function check(str, bracketsConfig) {
 
     str.split("");
     for (let iterator of str) {
-        let bracketsConfigIndex = bracketsConfig.indexOf(iterator);
+        for (let bracketsItem of bracketsConfig) {
+            for (let i of bracketsItem) {
+                let bracketsConfigIndex = bracketsItem.indexOf(bracketsItem[i]);
+                if (bracketsConfigIndex % 2 === 0) {
+                    stack.push(bracketsConfigIndex + 1);
+                } else if (bracketsConfigIndex !== stack.pop()) {
+                    return false;
+                }
 
-        if (bracketsConfigIndex % 2 === 0) {
-            stack.push(bracketsConfigIndex + 1);
-        } else {
-            if (stack.pop() !== bracketsConfigIndex) {
-                return false;
+                if (stack.length === 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        }
-
-        if (stack.length === 0) {
-            return true;
-        } else {
-            return false;
         }
     }
 };
