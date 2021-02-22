@@ -9,7 +9,6 @@ module.exports = function check(str, bracketsConfig) {
     let stack = [];
 
     for (let i of str) {
-        console.log(i);
         if (opens.includes(i)) {
             if (closed.includes(i)) {
                 if (
