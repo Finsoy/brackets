@@ -1,24 +1,44 @@
 module.exports = function check(str, bracketsConfig) {
-    // your solution
+    let opens = bracketsConfig.map(function (array) {
+        return array[0];
+    });
+    let closed = bracketsConfig.map(function (array) {
+        return array[1];
+    });
+
     let stack = [];
 
-    str.split("");
-    for (let iterator of str) {
-        for (let bracketsItem of bracketsConfig) {
-            for (let i of bracketsItem) {
-                let bracketsConfigIndex = bracketsItem.indexOf(bracketsItem[i]);
-                if (bracketsConfigIndex % 2 === 0) {
-                    stack.push(bracketsConfigIndex + 1);
-                } else if (bracketsConfigIndex !== stack.pop()) {
-                    return false;
-                }
-
-                if (stack.length === 0) {
-                    return true;
+    for (let i of str) {
+        console.log(i);
+        if (opens.includes(i)) {
+            if (closed.includes(i)) {
+                if (
+                    stack[stack.length - 1] ===
+                    getOpenBracket(i, bracketsConfig)
+                ) {
+                    stack.pop();
                 } else {
-                    return false;
+                    stack.push(i);
                 }
+            } else {
+                stack.push(i);
+            }
+        } else {
+            if (stack[stack.length - 1] === getOpenBracket(i, bracketsConfig)) {
+                stack.pop();
+            } else {
+                return false;
             }
         }
     }
+
+    return stack.length === 0;
 };
+
+function getOpenBracket(c, array) {
+    for (let arr of array) {
+        if (arr[1] === c) {
+            return arr[0];
+        }
+    }
+}
